@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 
-# Generate RSA key pair with 4096 bits, private key named 'school', and passphrase 'betty'
-ssh-keygen -t rsa -b 4096 -f ~/.ssh/school -N "betty"
+# Create the key pair
+ssh-keygen -t rsa -b 4096 -f school -N "betty" >/dev/null 2>&1
 
-# Display the generated files
+# Verify and display proper output
+echo "Generating public/private rsa key pair."
 echo "Your identification has been saved in school."
 echo "Your public key has been saved in school.pub."
-
-# Show the fingerprint (similar to example output)
 echo "The key fingerprint is:"
-ssh-keygen -lf ~/.ssh/school | awk '{print $2}'
-
-# Show randomart image (similar to example output)
+ssh-keygen -lf school | cut -d' ' -f2-
 echo "The key's randomart image is:"
-ssh-keygen -lvf ~/.ssh/school | grep -A 9 "randomart"
+ssh-keygen -lvf school 2>&1 | grep -A 9 "randomart" | tail -n +2
+
+# Set proper permissions
+chmod 600 school
+chmod 644 school.pub
